@@ -1,8 +1,12 @@
 from django import forms
-from .models import Image
+from .model import Image
 
 
-class ImageForm(forms.ModelForm):
+class UploadImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('title', 'image')
+        fields = ('image',)
+        widgets = {'image': forms.HiddenInput()}
+
+# class UploadImageForm(forms.Form):
+#     image = forms.ImageField()

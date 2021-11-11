@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>upload imagae</title>
+  <title>upload image</title>
 </head>
 <body>
 <p><h1>Django Uploading Images</h1></p>
@@ -17,8 +17,13 @@
 </form>
 
 {% if image_obj %}
-  <h3>Succesfully uploaded : {{image_obj.title}}</h3>
-  <img src="{{ image_obj.image.url}}" alt="connect" style="max-height:300px">
+  <h3>Successfully uploaded : {{image_obj.title}}</h3>
+  <img src="{{ image_obj.image.url }}" alt="connect" style="max-height:300px">
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" id="image_url" name="image_url" value="{{ image_obj.image.url }}">
+    <button type="submit">Detect</button>
+  </form>
 {% endif %}
 
 </body>
