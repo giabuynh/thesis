@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Face Mask Detection with YOLOv5</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+<!--        <link rel="stylesheet" href="{%  static 'css/home.css' %}" type="text/css">-->
+        <link rel="stylesheet" href="../static/css/home.css" type="text/css">
+    </head>
+    <body class="container-fluid d-flex flex-column justify-content-center">
+        {% include "header.html" %}
+
+        <h2 class="text-center title">Face Mask Detection with YOLOv5</h2>
+        <p class="text-center subtitle">Allow extensions: jpg, jpeg, png, mp4.</p>
+
+        <form method="post" id="upload-form" class="d-flex flex-column justify-content-center align-items-center mt-100" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="input-file-container container-lg d-flex flex-column justify-content-center align-items-center">
+<!--                <object data="{%  static 'images/undraw_duplicate_re_d39g.svg' %}" width="auto" height="50%"> </object>-->
+                <object data="../static/images/undraw_duplicate_re_d39g.svg" width="auto" height="50%"> </object>
+                <input class="input-file d-none" name="file" id="file" type="file" accept=".mp4,.jpeg,.jpg,.png" value="GiaBuynh">
+                <input class="d-none" name="action" type="hidden" value="upload">
+                <div class="d-inline-flex">
+                    <label tabindex="0" for="file" class="input-label col">Select a file</label>
+<!--                    <button type="submit" class="col upload-button">Upload</button>-->
+                </div>
+            </div>
+          <p class="file-return"></p>
+        </form>
+
+        {% if uploaded_file_urls %}
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <form method="post" id="detect-form" class="d-flex flex-column justify-content-center align-items-center" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col d-flex flex-row justify-content-center align-items-center">
+                    <h2 class="text-center title">Successfully uploaded:</h2>
+                    <button type="submit" class="col detect-button">Detect</button>
+                </div>
+
+                <input type="hidden" name="action" value="detect">
+                <div class="row">
+                    {% for url in uploaded_file_urls %}
+                    <img src="{{ url }}" class="uploaded-file col">
+                    <input type="hidden" name="urls" value="{{ url }}">
+                    {% endfor %}
+                </div>
+            </form>
+
+        </div>
+        {% endif %}
+
+        {% if detected_file_urls %}
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <h2 class="text-center title">Result:</h2>
+            <div class="col">
+                {% for url in detected_file_urls %}
+                <img src="{{ url }}" class="detected-file">
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!--        {% static 'js/header.js' %}-->
+        <script scr="../static/js/upload.js"></script>
+        <script src="../static/js/header.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

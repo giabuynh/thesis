@@ -232,7 +232,10 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
             im0 = annotator.result()
             if view_img:
                 cv2.imshow(str(p), im0)
-                cv2.waitKey(1)  # 1 millisecond
+                key = cv2.waitKey(1) & 0xFF # 1 millisecond
+                if key == ord('q'):
+                    break
+                    cv2.destroyAllWindows()
 
             # Save results (image with detections)
             if save_img:

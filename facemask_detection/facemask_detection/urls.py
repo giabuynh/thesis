@@ -21,7 +21,10 @@ from detection import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('cam/', views.livefe),
+    path('upload/', views.upload),
+    path('realtime/', views.realtime),
+    # path('', views.index),
 ]
 
 if settings.DEBUG:
